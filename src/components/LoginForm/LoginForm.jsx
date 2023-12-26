@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/authorization/operations';
 import css from './LoginForm.module.css';
+import { Notify } from 'notiflix';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,15 @@ export const LoginForm = () => {
         email: form.elements.email.value,
         password: form.elements.password.value,
       })
-    );
+    )
+      .unwrap()
+      .then(originalPromiseResult => {
+        Notify.success(`${originalPromiseResult.user.name} welcome back!`);
+      })
+      .catch(() => {
+        Notify.failure('Incorrect login or password');
+      });
+
     form.reset();
   };
   return (

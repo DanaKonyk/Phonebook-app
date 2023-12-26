@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { register } from '../../redux/authorization/operations';
 import css from './RegisterForm.module.css';
+import { Notify } from 'notiflix';
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,14 @@ export const RegisterForm = () => {
         email: form.elements.email.value,
         password: form.elements.password.value,
       })
-    );
+    )
+      .unwrap()
+      .then(originalPromiseResult => {
+        Notify.success(`${originalPromiseResult.user.name} welcome!`);
+      })
+      .catch(() => {
+        Notify.failure('Sorry, something went wrong');
+      });
     form.reset();
   };
   return (

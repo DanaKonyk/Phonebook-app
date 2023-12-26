@@ -1,3 +1,4 @@
+import { Notify } from 'notiflix';
 import { useDispatch, useSelector } from 'react-redux';
 import css from './ContactForm.module.css';
 import { nanoid } from 'nanoid';
@@ -20,7 +21,7 @@ const ContactForm = () => {
       );
 
     if (isContactExist) {
-      alert('Contact with this name already exist!');
+      Notify.failure(`Contact with the name ${newContactName} already exist!`);
       e.target.reset();
       return;
     }
